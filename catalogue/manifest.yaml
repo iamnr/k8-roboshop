@@ -5,32 +5,25 @@ metadata:
   namespace: roboshop
   labels: # these labels belong to deployment
     app: catalogue
-    tier: app
+    tier: db
     project: roboshop
 spec:
   replicas: 1
   selector:
     matchLabels: # these labels should match with pod
       app: catalogue
-      tier: app
+      tier: db
       project: roboshop
   template: # this is the pod definition
     metadata:
       labels:
         app: catalogue
-        tier: app
+        tier: db
         project: roboshop
     spec:
       containers:
       - name: catalogue
-        image: joindevops/catalogue:1.0.0
-        resources:
-          requests:
-            cpu: "50m"
-            memory: "68Mi"
-          limits:
-            cpu: "100m"
-            memory: "128Mi"
+        image: iamnr/catalogue:1.0.0
         envFrom:
         - configMapRef:
             name: catalogue
@@ -43,19 +36,20 @@ metadata:
 spec:
   selector:
     app: catalogue
-    tier: app
+    tier: db
     project: roboshop
   ports:
-  - name: mongodb-port
+  - name: catalogue-port
     protocol: TCP
     port: 8080 # this port belongs to service
     targetPort: 8080 # this port belongs to container
+
 ---
 apiVersion: v1
 kind: ConfigMap
-metadata:
+metadata: 
   name: catalogue
   namespace: roboshop
-data:
-  MONGO: "true" # keep true in double quotes
-  MONGO_URL: "mongodb://mongodb:27017/catalogue" # protocol//service-name:service-port/schema
+data: 
+  MONGO: "true"
+  MONGO_URL: "mongodb://mongodb:27017/catalogue"
