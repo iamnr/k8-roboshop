@@ -145,7 +145,7 @@ spec:
       containers:
       - name: web
         image: iamnr/web:1.0.0
-        imagePullPolicy: always
+        imagePullPolicy: Always
         resources:
           requests:
             cpu: "50m"
