@@ -143,9 +143,8 @@ spec:
           - key: nginx.conf
             path: nginx.conf
       containers:
-      - name: web
+      - name: catalogue
         image: joindevops/web:1.0.0
-        imagePullPolicy: Always
         resources:
           requests:
             cpu: "50m"
