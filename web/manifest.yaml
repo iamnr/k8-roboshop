@@ -135,9 +135,16 @@ spec:
         tier: web
         project: roboshop
     spec:
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx
+          items:
+          - key: nginx.conf
+            path: nginx.conf
       containers:
       - name: catalogue
-        image: iamnr/web:1.0.0
+        image: joindevops/web:1.0.0
         resources:
           requests:
             cpu: "50m"
@@ -145,3 +152,25 @@ spec:
           limits:
             cpu: "100m"
             memory: "128Mi"
+        volumeMounts:
+        - name: nginx-conf # name of the volume you created above
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          readOnly: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: roboshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: web
+    tier: web
+    project: roboshop
+  ports:
+  - name: web-port
+    protocol: TCP
+    port: 80 # this port belongs to service
+    targetPort: 80 # this port belongs to container
