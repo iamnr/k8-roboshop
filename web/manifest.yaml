@@ -128,7 +128,7 @@ spec:
             path: nginx.conf
       containers:
       - name: catalogue
-        image: joindevops/web:1.0.0
+        image: iamnr/web:1.0.0
         resources:
           requests:
             cpu: "50m"
